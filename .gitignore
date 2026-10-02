@@ -52,3 +52,26 @@ prompt
 server.log
 # Skills directory
 /skills/
+# --- AtlasHub Editions: local state, secrets & sandbox cruft (not part of the published site) ---
+# local environment / database / build state
+.env
+.env.*
+db/*.db
+db/*.db-journal
+tsconfig.tsbuildinfo
+next-env.d.ts
+# logs
+dev.log
+server.log
+*.log
+# internal orchestrator notes
+worklog.md
+# original reference inputs (site uses copies in public/assets/atlas/)
+upload/
+# sandbox-only scaffold (unrelated to the Editions site)
+examples/
+tests/
+mini-services/
+download/
+.zscripts/
+Caddyfile
