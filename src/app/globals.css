@@ -1,0 +1,314 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ----------------------------------------------------------------------------
+   AtlasHub Editions — Design System
+   Corporate technology premium. Deep navy + electric blue + signal cyan.
+---------------------------------------------------------------------------- */
+
+@theme inline {
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* AtlasHub brand palette */
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-card: var(--ink-card);
+  --color-ink-raised: var(--ink-raised);
+  --color-electric: var(--electric);
+  --color-electric-bright: var(--electric-bright);
+  --color-cyan-signal: var(--cyan-signal);
+  --color-cyan-bright: var(--cyan-bright);
+  --color-cloud: var(--cloud);
+  --color-steel: var(--steel);
+  --color-steel-dim: var(--steel-dim);
+
+  /* shadcn token bridge (kept for shadcn/ui components) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  /* ---- AtlasHub brand ---- */
+  --ink: #040914;          /* deepest navy — page base */
+  --ink-soft: #050B14;     /* near-black navy */
+  --ink-card: #071425;     /* card / panel surface */
+  --ink-raised: #071A2D;   /* raised surface */
+  --electric: #147DFF;     /* electric blue */
+  --electric-bright: #168CFF;
+  --cyan-signal: #55C7FF;  /* signal cyan */
+  --cyan-bright: #66E0FF;
+  --cloud: #F4F8FF;        /* white */
+  --steel: #8EA0B5;        /* steel grey for secondary text */
+  --steel-dim: #5E6F84;
+
+  --radius: 0.5rem;
+
+  /* ---- shadcn tokens mapped to AtlasHub dark navy ---- */
+  --background: #040914;
+  --foreground: #F4F8FF;
+  --card: #071425;
+  --card-foreground: #F4F8FF;
+  --popover: #071A2D;
+  --popover-foreground: #F4F8FF;
+  --primary: #147DFF;
+  --primary-foreground: #F4F8FF;
+  --secondary: #071A2D;
+  --secondary-foreground: #F4F8FF;
+  --muted: #071A2D;
+  --muted-foreground: #8EA0B5;
+  --accent: #0C1F38;
+  --accent-foreground: #F4F8FF;
+  --destructive: #E5484D;
+  --border: rgba(244, 248, 255, 0.10);
+  --input: rgba(244, 248, 255, 0.12);
+  --ring: #147DFF;
+
+  --chart-1: #55C7FF;
+  --chart-2: #147DFF;
+  --chart-3: #66E0FF;
+  --chart-4: #8EA0B5;
+  --chart-5: #F4F8FF;
+
+  --sidebar: #050B14;
+  --sidebar-foreground: #F4F8FF;
+  --sidebar-primary: #147DFF;
+  --sidebar-primary-foreground: #F4F8FF;
+  --sidebar-accent: #071425;
+  --sidebar-accent-foreground: #F4F8FF;
+  --sidebar-border: rgba(244, 248, 255, 0.10);
+  --sidebar-ring: #147DFF;
+}
+
+/* The AtlasHub site is inherently dark navy. Keep .dark in sync. */
+.dark {
+  --background: #040914;
+  --foreground: #F4F8FF;
+  --card: #071425;
+  --card-foreground: #F4F8FF;
+  --popover: #071A2D;
+  --popover-foreground: #F4F8FF;
+  --primary: #147DFF;
+  --primary-foreground: #F4F8FF;
+  --secondary: #071A2D;
+  --secondary-foreground: #F4F8FF;
+  --muted: #071A2D;
+  --muted-foreground: #8EA0B5;
+  --accent: #0C1F38;
+  --accent-foreground: #F4F8FF;
+  --destructive: #E5484D;
+  --border: rgba(244, 248, 255, 0.10);
+  --input: rgba(244, 248, 255, 0.12);
+  --ring: #147DFF;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv01", "cv03";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgba(85, 199, 255, 0.30);
+    color: #F4F8FF;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Custom scrollbar
+---------------------------------------------------------------------------- */
+@layer utilities {
+  .scrollbar-atlas {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(85, 199, 255, 0.35) transparent;
+  }
+  .scrollbar-atlas::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-atlas::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-atlas::-webkit-scrollbar-thumb {
+    background-color: rgba(85, 199, 255, 0.30);
+    border-radius: 9999px;
+  }
+  .scrollbar-atlas::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(85, 199, 255, 0.55);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   AtlasHub component utilities
+---------------------------------------------------------------------------- */
+@layer components {
+  /* Cyan → electric blue gradient text (for hero highlight) */
+  .text-gradient-atlas {
+    background-image: linear-gradient(100deg, #66E0FF 0%, #55C7FF 35%, #168CFF 70%, #147DFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Thin uppercase eyebrow label */
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.28em] text-cyan-signal;
+  }
+
+  /* Hairline divider in brand cyan */
+  .hairline {
+    background-image: linear-gradient(90deg, transparent, rgba(85, 199, 255, 0.5), transparent);
+  }
+
+  /* Frosted nav surface */
+  .nav-atlas {
+    background: linear-gradient(180deg, rgba(4, 9, 20, 0.85) 0%, rgba(4, 9, 20, 0.55) 100%);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  /* Subtle navy panel with cyan top hairline */
+  .panel-atlas {
+    background: linear-gradient(180deg, rgba(7, 20, 37, 0.9) 0%, rgba(5, 11, 20, 0.9) 100%);
+    border: 1px solid rgba(244, 248, 255, 0.08);
+  }
+
+  /* Electric glow ring on hover for cards */
+  .glow-atlas {
+    transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+  }
+  .glow-atlas:hover {
+    border-color: rgba(85, 199, 255, 0.45);
+    box-shadow: 0 0 0 1px rgba(85, 199, 255, 0.20), 0 18px 50px -20px rgba(20, 125, 255, 0.55);
+    transform: translateY(-4px);
+  }
+
+  /* Animated marquee track */
+  .marquee-track {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: marquee-atlas 38s linear infinite;
+  }
+  .marquee-atlas-paused:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Keyframes — microinteractions only (no gaming)
+---------------------------------------------------------------------------- */
+@keyframes marquee-atlas {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0) rotateY(0deg); }
+  50% { transform: translateY(-10px) rotateY(0deg); }
+}
+
+@keyframes blue-sweep {
+  0% { opacity: 0; transform: translateX(-30%); }
+  50% { opacity: 0.5; }
+  100% { opacity: 0; transform: translateX(30%); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.75; }
+}
+
+/* Reveal-on-scroll helper (toggled by IntersectionObserver).
+   Subtle & non-hiding: content is always visible (opacity 1) and only slides
+   up when revealed. This keeps the page legible for SEO/no-JS/static captures
+   and matches the brief's "scroll reveal discreto". */
+.reveal {
+  transform: translateY(18px);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.reveal.is-visible {
+  transform: translateY(0);
+}
+
+.animate-float-soft { animation: float-soft 7s ease-in-out infinite; }
+.animate-glow-pulse { animation: glow-pulse 6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .animate-float-soft,
+  .animate-glow-pulse {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Reader theme — calm editorial light surface (used on /ler route)
+---------------------------------------------------------------------------- */
+.reader-light {
+  --background: #F7F8FA;
+  --foreground: #14202E;
+  --card: #FFFFFF;
+  --card-foreground: #14202E;
+  --muted: #EEF1F5;
+  --muted-foreground: #5A6B7E;
+  --border: rgba(20, 32, 46, 0.10);
+  --ring: #147DFF;
+}
+.reader-light body { @apply bg-[#F7F8FA] text-[#14202E]; }
