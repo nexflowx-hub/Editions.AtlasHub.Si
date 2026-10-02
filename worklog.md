@@ -218,3 +218,42 @@ Stage Summary:
 - License preserved (proprietary AtlasHub Editions, declared in the footer);
   no invented metrics/clients/awards; EA-002/EA-003 marked "Em preparação".
 - Deliverable is the running site (sandbox does not perform git push).
+
+---
+Task ID: 4
+Agent: main (orchestrator) — main-route polish pass
+Task: "realiza para o main" — focus polish on the `/` route (the only one visible in
+the preview): strengthen the 3D book read and add an immediate "People ·
+Technology · Results" brand connection (brief §32).
+
+Work Log:
+- Rebuilt `BookCover` (`src/components/atlas/book-cover.tsx`):
+  - Diagnosed that the perpendicular `preserve-3d` spine/page panels were
+    rotating to face *into* the book → invisible (VLM read it as "flat card").
+  - Flattened the book (dropped `transform-style: preserve-3d`) so the spine
+    and page-block become coplanar bands that tilt with the cover as one plane
+    (guaranteed visible). Boosted contrast: darker spine gradient with a bright
+    glowing cyan light-catching edge, wider white page-block with clear
+    stacked-page lines, stronger perspective (1100px) + tilt (-26deg), stronger
+    contact shadow.
+  - Agent Browser DOM inspection confirmed the spine (30px, peeking ~28px
+    left) and pages (22px, peeking ~19px right) render with backgrounds; VLM
+    then confirmed the object reads as a 3D tilted book (spine + cover +
+    pages).
+- Added `PeopleTechnologyResults` component
+  (`src/components/atlas/ptr-band.tsx`) and inserted it on the homepage right
+  before the footer (after the ecosystem section). Centered headline
+  "People • Technology • Results" with gradient on "Results", eyebrow
+  "AtlasHub", ambient cyan glow, and three pillar cards (People/Users,
+  Technology/Cpu, Results/TrendingUp) — giving the immediate brand connection
+  the brief §32 requires.
+- Re-verified: homepage full-page (all 10 sections complete incl. the new PTR
+  band), hero 3D book reads as a physical book, mobile 390px (headline wraps
+  cleanly in 3 lines, book fits, no horizontal overflow), lint clean, dev.log
+  shows `GET / 200` with no runtime errors.
+
+Stage Summary:
+- The main route `/` now lands as unmistakably AtlasHub: corporate-technology
+  premium hero with a real 3D book object, the full editorial ladder, and a
+  closing "People · Technology · Results" band right above the footer.
+- Main-route deliverable is browser-verified across 1440/768/390px.

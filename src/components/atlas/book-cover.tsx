@@ -7,8 +7,14 @@ import { AtlasLogo } from "./atlas-logo";
  *
  * Built entirely in HTML/CSS/SVG so every line of text is real, selectable
  * text (brief §27: never rasterise important text). The cover presents as a
- * physical object: front face + spine + page edges + ground shadow, with a
- * subtle skyline silhouette and electric-blue glow behind the title.
+ * physical book object via a reliable 2.5D construction:
+ *   - the whole book tilts in a strong perspective (rotateY + rotateX);
+ *   - a SPINE strip fans out on the left (darker, vertical title, light-
+ *     catching edge);
+ *   - a PAGE-BLOCK strip fans out on the right (light, stacked-page texture);
+ *   - a soft contact shadow grounds the object.
+ * This reads clearly as a 3D book without depending on fiddly preserve-3d
+ * panel orientation.
  */
 export function BookCover({
   book,
@@ -28,14 +34,13 @@ export function BookCover({
         ? "w-[clamp(12rem,18vw,15rem)]"
         : "w-[clamp(9rem,12vw,11rem)]";
 
+  const spineW = size === "lg" ? 26 : size === "md" ? 20 : 15;
+  const pagesW = size === "lg" ? 16 : size === "md" ? 12 : 9;
+
   return (
     <div
-      className={cn(
-        "book-scene relative",
-        "font-sans",
-        className
-      )}
-      style={{ perspective: "1600px" }}
+      className={cn("book-scene relative font-sans", className)}
+      style={{ perspective: "1100px" }}
     >
       <div
         className={cn(
@@ -44,18 +49,67 @@ export function BookCover({
           tilt && "group"
         )}
         style={{
-          transformStyle: "preserve-3d",
-          transform: tilt ? "rotateY(-22deg) rotateX(2deg)" : "none",
+          transform: tilt ? "rotateY(-26deg) rotateX(4deg)" : "none",
           transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1)",
         }}
       >
-        {/* Front face */}
+        {/* ---------- Page-block strip (right) — coplanar band ---------- */}
+        <div
+          aria-hidden
+          className="absolute"
+          style={{
+            top: "3px",
+            left: "100%",
+            height: "calc(100% - 6px)",
+            width: `${pagesW + 6}px`,
+            marginLeft: "-3px",
+            background:
+              "repeating-linear-gradient(90deg,#F4F8FF 0 1px,#9aacc0 1px 2.5px), linear-gradient(180deg,#F4F8FF,#c2cfde)",
+            boxShadow:
+              "inset 0 0 6px rgba(20,32,46,0.4), inset -3px 0 6px rgba(20,32,46,0.6)",
+            borderRadius: "1px",
+          }}
+        />
+
+        {/* ---------- Spine strip (left) — coplanar band ---------- */}
+        <div
+          aria-hidden
+          className="absolute left-0 top-0 h-full overflow-hidden"
+          style={{
+            width: `${spineW + 4}px`,
+            marginLeft: `-${spineW + 2}px`,
+            background:
+              "linear-gradient(90deg,#01040C 0%,#040A18 30%,#0A1D33 70%,#103049 100%)",
+            borderLeft: "1px solid rgba(85,199,255,0.35)",
+            borderTopLeftRadius: "2px",
+            borderBottomLeftRadius: "2px",
+          }}
+        >
+          {/* bright light-catching edge where the spine meets the cover */}
+          <span
+            className="absolute inset-y-0 right-0 w-[3px]"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(102,224,255,0.95) 0%, rgba(85,199,255,0.3) 20%, rgba(85,199,255,0.12) 50%, rgba(85,199,255,0.3) 80%, rgba(102,224,255,0.7) 100%)",
+              boxShadow: "0 0 8px rgba(85,199,255,0.6)",
+            }}
+          />
+          <span
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[0.5rem] uppercase tracking-[0.32em] text-steel"
+            style={{ writingMode: "vertical-rl" }}
+          >
+            {book.title} {book.titleAccent} · {book.author}
+          </span>
+        </div>
+
+        {/* ---------- Front face ---------- */}
         <div
           className={cn(
             "book-face relative overflow-hidden rounded-r-sm rounded-l-[2px] border border-cloud/10",
-            "shadow-[0_30px_80px_-30px_rgba(20,125,255,0.55),0_18px_40px_-20px_rgba(0,0,0,0.85)]",
+            "shadow-[0_34px_90px_-28px_rgba(20,125,255,0.50),0_22px_50px_-18px_rgba(0,0,0,0.9)]",
             dims,
-            "aspect-[2/3]"
+            "aspect-[2/3]",
+            "relative z-10"
           )}
           style={{
             background:
@@ -79,7 +133,6 @@ export function BookCover({
               fill="url(#skylineFill)"
               d="M0,200 L0,150 L24,150 L24,120 L40,120 L40,140 L60,140 L60,90 L78,90 L78,128 L96,128 L96,108 L112,108 L112,132 L128,132 L128,96 L146,96 L146,120 L164,120 L164,84 L182,84 L182,114 L200,114 L200,72 L218,72 L218,104 L236,104 L236,128 L254,128 L254,96 L272,96 L272,120 L290,120 L290,80 L308,80 L308,112 L326,112 L326,128 L344,128 L344,88 L362,88 L362,116 L380,116 L380,100 L398,100 L398,132 L416,132 L416,96 L434,96 L434,120 L452,120 L452,84 L470,84 L470,112 L488,112 L488,128 L506,128 L506,100 L524,100 L524,124 L542,124 L542,92 L560,92 L560,120 L578,120 L578,150 L600,150 L600,200 Z"
             />
-            {/* window dots */}
             <g fill="#66E0FF" opacity="0.5">
               <rect x="64" y="100" width="3" height="3" />
               <rect x="70" y="106" width="3" height="3" />
@@ -137,45 +190,14 @@ export function BookCover({
             </div>
           </div>
         </div>
-
-        {/* Spine (left edge) */}
-        <div
-          className="book-spine absolute left-0 top-0 h-full w-[14px] origin-left overflow-hidden border-l border-cloud/10"
-          style={{
-            transform: "rotateY(-90deg) translateZ(7px)",
-            transformStyle: "preserve-3d",
-            background: "linear-gradient(90deg,#040914,#071425 60%,#050B14)",
-          }}
-          aria-hidden
-        >
-          <span
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[0.5rem] uppercase tracking-[0.3em] text-steel"
-            style={{ writingMode: "vertical-rl" }}
-          >
-            {book.title} {book.titleAccent} · {book.author}
-          </span>
-        </div>
-
-        {/* Page edges (right) */}
-        <div
-          className="book-pages absolute right-0 top-[3px] h-[calc(100%-6px)] w-[7px] origin-left overflow-hidden"
-          style={{
-            transform: "rotateY(90deg) translateZ(-3px)",
-            transformStyle: "preserve-3d",
-            background:
-              "repeating-linear-gradient(90deg,#F4F8FF 0,#F4F8FF 1px,#c9d4e4 1px,#c9d4e4 2px)",
-            opacity: 0.85,
-          }}
-          aria-hidden
-        />
       </div>
 
-      {/* Ground shadow */}
+      {/* Ground shadow — stronger, softer */}
       <div
-        className="pointer-events-none mx-auto mt-6 h-5 w-3/5 rounded-full blur-xl"
+        className="pointer-events-none mx-auto mt-7 h-6 w-4/5 rounded-full blur-2xl"
         style={{
           background:
-            "radial-gradient(ellipse at center, rgba(20,125,255,0.35), rgba(4,9,20,0) 70%)",
+            "radial-gradient(ellipse at center, rgba(20,125,255,0.38), rgba(4,9,20,0) 72%)",
         }}
         aria-hidden
       />

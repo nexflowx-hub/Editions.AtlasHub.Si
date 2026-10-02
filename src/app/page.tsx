@@ -7,6 +7,7 @@ import { CategoryCard } from "@/components/atlas/category-card";
 import { TopicCard } from "@/components/atlas/topic-card";
 import { BusinessCaseCard } from "@/components/atlas/business-case-card";
 import { EcosystemFlow } from "@/components/atlas/ecosystem-flow";
+import { PeopleTechnologyResults } from "@/components/atlas/ptr-band";
 import { SectionHeader } from "@/components/atlas/section-header";
 import {
   EDITORIAL_CATEGORIES,
@@ -114,6 +115,9 @@ export default function HomePage() {
             <EcosystemFlow />
           </div>
         </section>
+
+        {/* People · Technology · Results — closing brand band */}
+        <PeopleTechnologyResults />
       </main>
 
       <SiteFooter />
